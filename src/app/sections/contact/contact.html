@@ -1,0 +1,66 @@
+@let profile = t().profile;
+@let ui = t().ui.contact;
+<section id="contacto" class="section" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="cta" appReveal>
+      <div class="cta__glow" aria-hidden="true"></div>
+
+      <div class="cta__copy">
+        <p class="eyebrow"><span class="eyebrow__index">07</span>{{ ui.eyebrow }}</p>
+        <h2 id="contact-title" class="cta__title">{{ ui.title }}</h2>
+        <p class="cta__lead">{{ ui.lead }}</p>
+        <div class="cta__actions">
+          <a class="btn btn--filled" appRipple [href]="'mailto:' + profile.contact.email">
+            <app-icon name="mail" [size]="18" />
+            {{ ui.email }}
+          </a>
+          <a class="btn btn--outlined" appRipple [href]="profile.cv.href" [attr.download]="profile.cv.fileName">
+            <app-icon name="download" [size]="18" class="icon--drop" />
+            {{ ui.downloadCv }}
+          </a>
+        </div>
+      </div>
+
+      <ul class="channels">
+        <li class="channel">
+          <app-icon name="mail" />
+          <div class="channel__body">
+            <span class="channel__label">{{ ui.emailLabel }}</span>
+            <a class="channel__value" [href]="'mailto:' + profile.contact.email">{{ profile.contact.email }}</a>
+          </div>
+          @if (canCopy) {
+            <button type="button" class="btn btn--icon btn--text channel__copy" appRipple (click)="copyEmail()">
+              <app-icon [name]="copied() ? 'check' : 'copy'" [size]="18" />
+              <span class="visually-hidden">{{ ui.copy }}</span>
+            </button>
+          }
+        </li>
+        <li class="channel">
+          <app-icon name="phone" />
+          <div class="channel__body">
+            <span class="channel__label">{{ ui.phoneLabel }}</span>
+            <a class="channel__value" [href]="profile.contact.phoneHref">{{ profile.contact.phoneDisplay }}</a>
+          </div>
+        </li>
+        <li class="channel">
+          <app-icon name="pin" />
+          <div class="channel__body">
+            <span class="channel__label">{{ ui.locationLabel }}</span>
+            <span class="channel__value">{{ profile.location }}</span>
+          </div>
+        </li>
+        @for (link of profile.social; track link.href) {
+          <li class="channel">
+            <app-icon name="arrow-right" />
+            <div class="channel__body">
+              <span class="channel__label">{{ link.label }}</span>
+              <a class="channel__value" [href]="link.href" target="_blank" rel="noopener">{{ link.href }}</a>
+            </div>
+          </li>
+        }
+      </ul>
+
+      <p class="visually-hidden" aria-live="polite">{{ copied() ? ui.copied : '' }}</p>
+    </div>
+  </div>
+</section>

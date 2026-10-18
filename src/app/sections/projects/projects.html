@@ -1,0 +1,48 @@
+@let ui = t().ui.projects;
+<section id="proyectos" class="section projects" aria-labelledby="projects-title">
+  <div class="container">
+    <header class="section-head" appReveal>
+      <p class="eyebrow"><span class="eyebrow__index">03</span>{{ ui.eyebrow }}</p>
+      <h2 id="projects-title" class="section-title">{{ ui.title }}</h2>
+      <p class="section-lead">{{ ui.lead }}</p>
+    </header>
+
+    <div class="projects__grid">
+      @for (project of t().javaProjects; track project.title; let i = $index) {
+        <article class="project" [class.project--lead]="i === 0" appReveal [appRevealDelay]="(i % 2) * 90">
+          <p class="project__meta">{{ project.meta }}</p>
+          <h3 class="project__title">{{ project.title }}</h3>
+          <p class="project__summary">{{ project.summary }}</p>
+          <ul class="project__points">
+            @for (point of project.points; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+          <ul class="chip-list project__stack" [attr.aria-label]="t().ui.experience.stackLabel">
+            @for (tech of project.stack; track tech) {
+              <li class="chip">{{ tech }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+
+    <div class="legacy" appReveal>
+      <h3 class="legacy__title">{{ ui.legacyTitle }}</h3>
+      <ul class="legacy__list">
+        @for (project of t().dotnetProjects; track project.title) {
+          <li class="legacy__item">
+            <div>
+              <h4 class="legacy__name">{{ project.title }}</h4>
+              <p class="legacy__meta">{{ project.meta }}</p>
+            </div>
+            <p class="legacy__summary">{{ project.summary }}</p>
+            <p class="legacy__stack">
+              <span class="visually-hidden">{{ ui.stackLabel }}</span>{{ project.stack.join(' · ') }}
+            </p>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

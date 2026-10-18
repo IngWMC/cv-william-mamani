@@ -1,0 +1,118 @@
+@use 'tokens' as t;
+@use 'mixins' as *;
+
+:root {
+  @each $name, $value in t.$colors {
+    --color-#{$name}: #{$value};
+  }
+  @each $name, $value in t.$space {
+    --space-#{$name}: #{$value};
+  }
+  @each $name, $value in t.$radius {
+    --radius-#{$name}: #{$value};
+  }
+  @each $name, $value in t.$elevation {
+    --elevation-#{$name}: #{$value};
+  }
+  @each $name, $value in t.$fonts {
+    --font-#{$name}: #{$value};
+  }
+  @each $name, $value in t.$font-sizes {
+    --fs-#{$name}: #{$value};
+  }
+  @each $name, $value in t.$motion {
+    --#{$name}: #{$value};
+  }
+  @each $name, $value in t.$layout {
+    --#{$name}: #{$value};
+  }
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+
+  @include reduced-motion {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 85% -10%, rgba(103, 199, 245, 0.07), transparent 60%),
+    radial-gradient(900px 600px at -10% 10%, rgba(245, 160, 74, 0.07), transparent 60%),
+    var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; // Safari < 16 fallback
+  overflow-x: clip;
+
+  &.menu-open {
+    overflow: hidden;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+#main:focus {
+  outline: none;
+}

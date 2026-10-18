@@ -1,0 +1,86 @@
+// Design tokens: the single source of raw values (palette, spacing, radii, elevation, type, motion).
+// _base.scss exposes them as CSS custom properties so every component reads var(--…).
+
+$colors: (
+  'bg': #0a0d14,
+  'bg-raised': #0d121b,
+  'surface': #121925,
+  'surface-high': #182131,
+  'border': rgba(148, 163, 184, 0.14),
+  'border-strong': rgba(148, 163, 184, 0.28),
+  'text': #e8ecf4,
+  'text-muted': #a0aabb,
+  'text-subtle': #7c879b,
+  'accent': #f5a04a,
+  'accent-strong': #ffbd73,
+  'accent-soft': rgba(245, 160, 74, 0.12),
+  'on-accent': #1b1207,
+  'cool': #67c7f5,
+  'cool-soft': rgba(103, 199, 245, 0.12),
+  'focus': #ffd08f,
+);
+
+$space: (
+  '1': 0.25rem,
+  '2': 0.5rem,
+  '3': 0.75rem,
+  '4': 1rem,
+  '5': 1.5rem,
+  '6': 2rem,
+  '7': 3rem,
+  '8': 4rem,
+  '9': 6rem,
+);
+
+$radius: (
+  'sm': 8px,
+  'md': 14px,
+  'lg': 20px,
+  'xl': 28px,
+  'full': 999px,
+);
+
+// Material-style elevation levels, tuned for a dark surface.
+$elevation: (
+  '1': (0 1px 2px rgba(0, 0, 0, 0.45), 0 1px 3px 1px rgba(0, 0, 0, 0.25)),
+  '2': (0 2px 6px rgba(0, 0, 0, 0.4), 0 8px 24px -6px rgba(0, 0, 0, 0.45)),
+  '3': (0 12px 32px -8px rgba(0, 0, 0, 0.6), 0 24px 64px -24px rgba(0, 0, 0, 0.55)),
+);
+
+$fonts: (
+  'display': ('Space Grotesk', ui-sans-serif, system-ui, sans-serif),
+  'body': ('Manrope', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif),
+  'mono': ('JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace),
+);
+
+$font-sizes: (
+  'display': clamp(2.5rem, 1.4rem + 4.6vw, 5rem),
+  'h2': clamp(1.85rem, 1.3rem + 2.2vw, 3rem),
+  'h3': clamp(1.2rem, 1.05rem + 0.6vw, 1.5rem),
+  'lead': clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem),
+  'body': 1rem,
+  'small': 0.875rem,
+  'micro': 0.75rem,
+);
+
+$motion: (
+  'dur-short': 150ms,
+  'dur-medium': 280ms,
+  'dur-long': 600ms,
+  'ease-standard': cubic-bezier(0.2, 0, 0, 1),
+  'ease-decelerate': cubic-bezier(0.05, 0.7, 0.1, 1),
+  'ease-accelerate': cubic-bezier(0.3, 0, 0.8, 0.15),
+);
+
+$layout: (
+  'container': 1200px,
+  'gutter': clamp(16px, 4vw, 40px),
+  'header-h': 72px,
+  'section-space': clamp(4.5rem, 3rem + 6vw, 8.5rem),
+);
+
+$breakpoints: (
+  'sm': 600px,
+  'md': 900px,
+  'lg': 1200px,
+);

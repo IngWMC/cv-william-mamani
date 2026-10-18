@@ -1,0 +1,215 @@
+@use '../../../styles/mixins' as *;
+
+:host {
+  display: block;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --plane: clamp(210px, 26vw, 330px);
+  position: relative;
+  height: clamp(340px, 30vw + 160px, 500px);
+
+  @include down(md) {
+    --plane: clamp(180px, 52vw, 260px);
+    height: clamp(300px, 80vw, 400px);
+  }
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+}
+
+.stack {
+  position: relative;
+  width: var(--plane);
+  aspect-ratio: 1;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(58deg + var(--tilt-y))) rotateZ(calc(-42deg + var(--tilt-x)));
+  transition: transform 700ms var(--ease-decelerate);
+}
+
+.plane {
+  --z: 0px;
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 22px;
+  background:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px) 0 0 / 22px 22px,
+    linear-gradient(135deg, rgba(24, 33, 49, 0.92), rgba(13, 18, 27, 0.92));
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+  transform: translateZ(var(--z));
+  animation: float 7s ease-in-out infinite alternate;
+
+  &--ports {
+    --z: 70px;
+    inset: 12%;
+    border-color: rgba(103, 199, 245, 0.45);
+    background-color: rgba(103, 199, 245, 0.06);
+    animation-delay: -2.3s;
+  }
+
+  &--domain {
+    --z: 140px;
+    inset: 28%;
+    border-color: rgba(245, 160, 74, 0.7);
+    background: linear-gradient(135deg, rgba(245, 160, 74, 0.35), rgba(245, 160, 74, 0.08));
+    box-shadow: 0 0 60px -6px rgba(245, 160, 74, 0.45);
+    animation-delay: -4.6s;
+  }
+
+  &__tag {
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    color: var(--color-text-muted);
+    font: 500 0.66rem/1 var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  &--domain &__tag {
+    color: var(--color-accent-strong);
+  }
+
+  &__ports {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 4px;
+    max-width: 70%;
+
+    i {
+      padding: 2px 6px;
+      border: 1px solid var(--color-border-strong);
+      border-radius: 6px;
+      color: var(--color-text-muted);
+      font: normal 500 0.6rem/1.3 var(--font-mono);
+    }
+  }
+}
+
+.beam {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 1px;
+  height: 140px;
+  background: linear-gradient(rgba(245, 160, 74, 0.05), rgba(245, 160, 74, 0.55));
+  transform-origin: top center;
+  transform: rotateX(90deg);
+}
+
+.float-tag {
+  position: absolute;
+  padding: 6px 12px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  background: rgba(18, 25, 37, 0.85);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--color-text);
+  font: 500 0.75rem/1 var(--font-mono);
+  box-shadow: var(--elevation-2);
+  animation: bob 6s ease-in-out infinite alternate;
+
+  &--a {
+    top: 8%;
+    right: 6%;
+  }
+
+  &--b {
+    top: 44%;
+    left: 0;
+    animation-delay: -2s;
+  }
+
+  &--c {
+    right: 2%;
+    bottom: 26%;
+    border-color: rgba(103, 199, 245, 0.4);
+    color: var(--color-cool);
+    animation-delay: -4s;
+  }
+}
+
+.code-card {
+  position: absolute;
+  left: 4%;
+  bottom: 0;
+  margin: 0;
+  max-width: min(320px, 92%);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: rgba(13, 18, 27, 0.92);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--elevation-3);
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--color-border);
+
+    span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-border-strong);
+    }
+
+    em {
+      margin-left: 6px;
+      color: var(--color-text-subtle);
+      font: normal 0.68rem/1 var(--font-mono);
+    }
+  }
+
+  pre {
+    margin: 0;
+    padding: 12px 14px;
+    overflow: hidden;
+    color: var(--color-text-muted);
+    font: 0.72rem/1.6 var(--font-mono);
+  }
+}
+
+.tk-key {
+  color: #c792ea;
+}
+
+.tk-type {
+  color: var(--color-cool);
+}
+
+.tk-fn {
+  color: var(--color-accent-strong);
+}
+
+@keyframes float {
+  to {
+    transform: translateZ(calc(var(--z) + 12px));
+  }
+}
+
+@keyframes bob {
+  to {
+    transform: translateY(-8px);
+  }
+}
+
+@include reduced-motion {
+  .plane,
+  .float-tag {
+    animation: none;
+  }
+}

@@ -1,0 +1,207 @@
+@use '../../../styles/mixins' as *;
+
+.hero {
+  position: relative;
+  overflow: hidden; // Safari < 16 fallback
+  overflow: clip;
+  padding-top: calc(var(--header-h) + clamp(2rem, 1rem + 4vw, 5rem));
+  padding-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+
+  &__grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 70% 35%, #000 20%, transparent 75%);
+    pointer-events: none;
+  }
+
+  &__layout {
+    position: relative;
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+
+    @include up(md) {
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    }
+  }
+
+  &__visual {
+    animation: fade 1.2s var(--ease-standard) 300ms both;
+  }
+
+  &__eyebrow {
+    @include mono-label;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--color-text-muted);
+  }
+
+  &__pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 0 rgba(245, 160, 74, 0.6);
+    animation: pulse 2.4s var(--ease-standard) 3;
+  }
+
+  &__title {
+    margin-top: var(--space-5);
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  &__title-accent {
+    display: block;
+    background: linear-gradient(100deg, var(--color-text) 10%, var(--color-accent-strong) 55%, var(--color-accent) 90%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  &__role {
+    margin-top: var(--space-4);
+    color: var(--color-text-muted);
+    font: 500 clamp(1rem, 0.95rem + 0.3vw, 1.15rem) / 1.4 var(--font-mono);
+
+    strong {
+      color: var(--color-accent-strong);
+      font-weight: 600;
+    }
+  }
+
+  &__sep {
+    color: var(--color-text-subtle);
+  }
+
+  &__headline {
+    margin-top: var(--space-6);
+    max-width: 30ch;
+    font: 600 clamp(1.3rem, 1.1rem + 0.9vw, 1.8rem) / 1.3 var(--font-display);
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  &__summary {
+    margin-top: var(--space-4);
+    max-width: 58ch;
+    color: var(--color-text-muted);
+    // Phones get the short summary so the calls to action stay near the top.
+    &--full {
+      @include down(sm) {
+        display: none;
+      }
+    }
+
+    &--short {
+      @include up(sm) {
+        display: none;
+      }
+    }
+  }
+
+  &__stack {
+    margin-top: var(--space-5);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: clamp(3rem, 2rem + 4vw, 5.5rem) 0 0;
+    border-block: 1px solid var(--color-border);
+
+    @include up(md) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+}
+
+.stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  padding: var(--space-5) var(--space-4);
+
+  & + & {
+    border-left: 1px solid var(--color-border);
+  }
+
+  @include down(md) {
+    &:nth-child(3) {
+      border-left: 0;
+    }
+
+    &:nth-child(n + 3) {
+      border-top: 1px solid var(--color-border);
+    }
+  }
+
+  &__value {
+    margin: 0;
+    font: 700 clamp(1.6rem, 1.2rem + 1.6vw, 2.4rem) / 1 var(--font-display);
+    letter-spacing: -0.03em;
+  }
+
+  &:last-child &__value {
+    color: var(--color-accent-strong);
+  }
+
+  &__label {
+    color: var(--color-text-subtle);
+    font-size: var(--fs-small);
+  }
+}
+
+// Load-in sequence for above-the-fold content (the scroll reveal would add a needless delay here).
+.enter {
+  animation: enter 800ms var(--ease-decelerate) both;
+  animation-delay: calc(var(--d, 0) * 70ms + 80ms);
+
+  @include reduced-motion {
+    animation-name: fade;
+    animation-duration: 300ms;
+  }
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  70% {
+    box-shadow: 0 0 0 10px rgba(245, 160, 74, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(245, 160, 74, 0);
+  }
+}
+
+@include reduced-motion {
+  .hero__pulse {
+    animation: none;
+  }
+}

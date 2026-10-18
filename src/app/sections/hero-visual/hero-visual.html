@@ -1,0 +1,31 @@
+<!-- Decorative: a hexagonal-architecture layer stack rendered with CSS 3D. -->
+<div class="scene">
+  <div class="stack">
+    <div class="plane plane--adapters">
+      <span class="plane__tag">adapters</span>
+      <span class="plane__ports">
+        <i>REST</i><i>Kafka</i><i>Cosmos&nbsp;DB</i><i>Redis</i>
+      </span>
+    </div>
+    <div class="plane plane--ports"><span class="plane__tag">ports · use cases</span></div>
+    <div class="plane plane--domain"><span class="plane__tag">domain</span></div>
+    <span class="beam" style="--x: 22%; --y: 30%"></span>
+    <span class="beam" style="--x: 74%; --y: 26%"></span>
+    <span class="beam" style="--x: 30%; --y: 76%"></span>
+    <span class="beam" style="--x: 70%; --y: 72%"></span>
+  </div>
+</div>
+
+<span class="float-tag float-tag--a">Spring Boot</span>
+<span class="float-tag float-tag--b">Quarkus</span>
+<span class="float-tag float-tag--c">Azure AKS</span>
+
+<figure class="code-card">
+  <div class="code-card__bar">
+    <span></span><span></span><span></span>
+    <em>LoadAccountPort.java</em>
+  </div>
+  <pre><code><span class="tk-key">public interface</span> <span class="tk-type">LoadAccountPort</span> &#123;
+  <span class="tk-type">Mono</span>&lt;<span class="tk-type">Account</span>&gt; <span class="tk-fn">load</span>(<span class="tk-type">AccountId</span> id);
+&#125;</code></pre>
+</figure>

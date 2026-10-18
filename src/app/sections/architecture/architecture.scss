@@ -1,0 +1,218 @@
+@use '../../../styles/mixins' as *;
+
+.arch {
+  border-block: 1px solid var(--color-border);
+  background:
+    radial-gradient(800px 500px at 15% 40%, rgba(103, 199, 245, 0.06), transparent 65%),
+    var(--color-bg-raised);
+
+  &__layout {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+
+    @include up(md) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+}
+
+.diagram {
+  max-width: 520px;
+  width: 100%;
+  margin-inline: auto;
+
+  &__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  &__layer {
+    fill: rgba(148, 163, 184, 0.04);
+    stroke: var(--color-border-strong);
+    stroke-width: 1.25;
+    transition:
+      fill var(--dur-medium) var(--ease-standard),
+      stroke var(--dur-medium) var(--ease-standard);
+
+    &[data-layer='domain'] {
+      fill: rgba(245, 160, 74, 0.1);
+    }
+
+    &.is-active {
+      fill: var(--color-accent-soft);
+      stroke: var(--color-accent);
+      stroke-width: 2;
+    }
+
+    &[data-layer='domain'].is-active {
+      fill: rgba(245, 160, 74, 0.28);
+    }
+  }
+
+  &__link {
+    stroke: var(--color-border-strong);
+    stroke-dasharray: 3 6;
+    pointer-events: none;
+    animation: flow 1.6s linear infinite;
+    animation-play-state: paused;
+
+    [data-active='adapters'] & {
+      stroke: rgba(103, 199, 245, 0.55);
+      animation-play-state: running;
+    }
+  }
+
+  &__node {
+    pointer-events: none;
+
+    circle {
+      fill: var(--color-cool);
+    }
+
+    text {
+      fill: var(--color-text-muted);
+      font: 500 13px var(--font-mono);
+      text-anchor: middle;
+    }
+
+    &--out circle {
+      fill: var(--color-accent);
+    }
+  }
+
+  &__label {
+    fill: var(--color-text-subtle);
+    font: 600 12px var(--font-mono);
+    letter-spacing: 0.14em;
+    text-anchor: middle;
+    pointer-events: none;
+
+    &--core {
+      fill: var(--color-accent-strong);
+      font-size: 15px;
+    }
+  }
+}
+
+.layers {
+  &__switch {
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 4px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+  }
+
+  &__btn {
+    min-height: 40px;
+    padding: 0 var(--space-4);
+    border: 0;
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-medium) var(--ease-standard),
+      color var(--dur-medium) var(--ease-standard);
+
+    &:hover {
+      color: var(--color-text);
+    }
+
+    &[aria-pressed='true'] {
+      background: var(--color-accent);
+      color: var(--color-on-accent);
+    }
+  }
+
+  &__detail {
+    margin-top: var(--space-6);
+    animation: detail-in 400ms var(--ease-decelerate);
+
+    .chip-list {
+      margin-top: var(--space-5);
+    }
+  }
+
+  &__title {
+    font-size: var(--fs-h3);
+  }
+
+  &__text {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--fs-lead);
+  }
+}
+
+.practices {
+  display: grid;
+  gap: 0 var(--space-6);
+  margin-top: clamp(3rem, 2rem + 4vw, 5.5rem);
+
+  @include up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include up(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.practice {
+  padding: var(--space-5) 0 var(--space-6);
+  border-top: 1px solid var(--color-border);
+  transition: border-color var(--dur-medium) var(--ease-standard);
+
+  &:hover {
+    border-color: var(--color-accent);
+  }
+
+  &__index {
+    color: var(--color-accent);
+    font: 500 var(--fs-micro) / 1 var(--font-mono);
+  }
+
+  &__title {
+    margin-top: var(--space-3);
+    font-size: 1.15rem;
+  }
+
+  &__detail {
+    margin-top: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+  }
+
+  &__tools {
+    margin-top: var(--space-3);
+    color: var(--color-cool);
+    font: 500 0.78rem/1.6 var(--font-mono);
+  }
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+
+@keyframes detail-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@include reduced-motion {
+  .diagram__link,
+  .layers__detail {
+    animation: none;
+  }
+}

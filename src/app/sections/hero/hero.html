@@ -1,0 +1,57 @@
+@let profile = t().profile;
+@let ui = t().ui.hero;
+<section id="inicio" class="hero" aria-labelledby="hero-title">
+  <div class="hero__grid-bg" aria-hidden="true"></div>
+
+  <div class="container hero__layout">
+    <div class="hero__copy">
+      <p class="hero__eyebrow enter" style="--d: 0">
+        <span class="hero__pulse" aria-hidden="true"></span>
+        Technical Lead · {{ profile.location }}
+      </p>
+
+      <h1 id="hero-title" class="hero__title enter" style="--d: 1">
+        William <span class="hero__title-accent">Mamani Cutipa</span>
+      </h1>
+
+      <p class="hero__role enter" style="--d: 2">
+        Technical Lead <span class="hero__sep" aria-hidden="true">/</span>
+        {{ ui.roleBefore }}<strong>Java</strong>{{ ui.roleAfter }}
+      </p>
+
+      <p class="hero__headline enter" style="--d: 3">{{ profile.headline }}</p>
+      <p class="hero__summary hero__summary--full enter" style="--d: 4">{{ profile.summary }}</p>
+      <p class="hero__summary hero__summary--short enter" style="--d: 4">{{ profile.summaryShort }}</p>
+
+      <ul class="chip-list hero__stack enter" style="--d: 5" [attr.aria-label]="ui.stackLabel">
+        @for (tech of profile.heroStack; track tech; let first = $first) {
+          <li class="chip" [class.chip--accent]="first">{{ tech }}</li>
+        }
+      </ul>
+
+      <div class="hero__actions enter" style="--d: 6">
+        <a class="btn btn--filled" appRipple [href]="'mailto:' + profile.contact.email">
+          {{ ui.contact }}
+          <app-icon name="arrow-right" [size]="18" class="icon--nudge" />
+        </a>
+        <a class="btn btn--outlined" appRipple [href]="profile.cv.href" [attr.download]="profile.cv.fileName">
+          <app-icon name="download" [size]="18" class="icon--drop" />
+          {{ ui.downloadCv }}
+        </a>
+      </div>
+    </div>
+
+    <app-hero-visual class="hero__visual" />
+  </div>
+
+  <div class="container">
+    <dl class="hero__stats">
+      @for (stat of t().stats; track stat.label; let i = $index) {
+        <div class="stat enter" [style.--d]="7 + i">
+          <dt class="stat__label">{{ stat.label }}</dt>
+          <dd class="stat__value">{{ stat.value }}</dd>
+        </div>
+      }
+    </dl>
+  </div>
+</section>

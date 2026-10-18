@@ -1,0 +1,4 @@
+// Global entry point. Tokens and mixins emit no CSS on their own; components @use them directly.
+// @font-face rules live in index.html so their relative URLs resolve against the page.
+@use 'styles/base';
+@use 'styles/components';

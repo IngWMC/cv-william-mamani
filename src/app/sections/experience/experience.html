@@ -1,0 +1,64 @@
+@let ui = t().ui.experience;
+<section id="experiencia" class="section" aria-labelledby="experience-title">
+  <div class="container">
+    <header class="section-head" appReveal>
+      <p class="eyebrow"><span class="eyebrow__index">02</span>{{ ui.eyebrow }}</p>
+      <h2 id="experience-title" class="section-title">{{ ui.title }}</h2>
+      <p class="section-lead">{{ ui.lead }}</p>
+    </header>
+
+    <ol class="timeline">
+      @for (job of t().jobs; track job.company) {
+        <li class="timeline__item" [class.timeline__item--featured]="job.focus === 'java'" appReveal>
+          <span class="timeline__marker" aria-hidden="true"></span>
+          <article class="job">
+            <header class="job__head">
+              <div>
+                <h3 class="job__company">{{ job.company }}</h3>
+                <p class="job__role">
+                  {{ job.role }}
+                  <span class="job__focus" [attr.data-focus]="job.focus">{{ job.focusLabel }}</span>
+                </p>
+              </div>
+              <p class="job__period">{{ job.period }}</p>
+            </header>
+
+            @if (job.clients) {
+              <p class="job__clients"><span>{{ ui.clientsLabel }}</span>{{ job.clients }}</p>
+            }
+
+            <ul class="job__highlights">
+              @for (highlight of job.highlights; track highlight) {
+                <li>{{ highlight }}</li>
+              }
+            </ul>
+
+            <ul class="chip-list job__stack" [attr.aria-label]="ui.stackLabel">
+              @for (tech of job.stack; track tech) {
+                <li class="chip">{{ tech }}</li>
+              }
+            </ul>
+          </article>
+        </li>
+      }
+    </ol>
+
+    <div class="earlier" appReveal>
+      <h3 class="earlier__title">
+        {{ ui.earlierTitle }} <span class="earlier__range">{{ ui.earlierRange }}</span>
+      </h3>
+      <ul class="earlier__list">
+        @for (role of t().earlierRoles; track role.company) {
+          <li class="earlier__item">
+            <p class="earlier__period">{{ role.period }}</p>
+            <div>
+              <p class="earlier__company">{{ role.company }}</p>
+              <p class="earlier__role">{{ role.role }}</p>
+            </div>
+            <p class="earlier__detail">{{ role.detail }}</p>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

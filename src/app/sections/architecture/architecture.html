@@ -1,0 +1,84 @@
+@let ui = t().ui.architecture;
+<section id="arquitectura" class="section arch" aria-labelledby="arch-title">
+  <div class="container">
+    <header class="section-head" appReveal>
+      <p class="eyebrow"><span class="eyebrow__index">04</span>{{ ui.eyebrow }}</p>
+      <h2 id="arch-title" class="section-title">{{ ui.title }}</h2>
+      <p class="section-lead">{{ ui.lead }}</p>
+    </header>
+
+    <div class="arch__layout">
+      <div class="diagram" appReveal>
+        <svg
+          class="diagram__svg"
+          viewBox="0 0 480 480"
+          role="img"
+          aria-labelledby="hex-title"
+          [attr.data-active]="activeId()"
+        >
+          <title id="hex-title">{{ ui.diagramTitle }}</title>
+          @for (layer of layers(); track layer.id) {
+            <polygon
+              class="diagram__layer"
+              [class.is-active]="layer.id === activeId()"
+              [attr.data-layer]="layer.id"
+              [attr.points]="layer.points"
+              (mouseenter)="activeId.set(layer.id)"
+            />
+          }
+          @for (n of nodes; track n.label) {
+            <line class="diagram__link" [attr.x1]="n.x1" [attr.y1]="n.y1" [attr.x2]="n.x" [attr.y2]="n.y" />
+          }
+          @for (n of nodes; track n.label) {
+            <g class="diagram__node" [class.diagram__node--out]="!n.inbound">
+              <circle [attr.cx]="n.x" [attr.cy]="n.y" r="5" />
+              <text [attr.x]="n.x" [attr.y]="n.y + 22">{{ n.label }}</text>
+            </g>
+          }
+          <text class="diagram__label" x="240" y="62">{{ layers()[0].label | uppercase }}</text>
+          <text class="diagram__label" x="240" y="138">{{ layers()[1].label | uppercase }}</text>
+          <text class="diagram__label diagram__label--core" x="240" y="246">
+            {{ layers()[2].label | uppercase }}
+          </text>
+        </svg>
+      </div>
+
+      <div class="layers" appReveal [appRevealDelay]="120">
+        <div class="layers__switch" role="group" [attr.aria-label]="ui.layersLabel">
+          @for (layer of layers(); track layer.id) {
+            <button
+              type="button"
+              class="layers__btn"
+              [attr.aria-pressed]="layer.id === activeId()"
+              (click)="activeId.set(layer.id)"
+            >
+              {{ layer.label }}
+            </button>
+          }
+        </div>
+        @for (layer of [active()]; track layer.id) {
+          <div class="layers__detail" aria-live="polite">
+            <h3 class="layers__title">{{ layer.label }}</h3>
+            <p class="layers__text">{{ layer.detail }}</p>
+            <ul class="chip-list">
+              @for (example of layer.examples; track example) {
+                <li class="chip chip--cool">{{ example }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+
+    <ol class="practices">
+      @for (practice of t().practices; track practice.title; let i = $index) {
+        <li class="practice" appReveal [appRevealDelay]="(i % 3) * 80">
+          <span class="practice__index" aria-hidden="true">0{{ i + 1 }}</span>
+          <h3 class="practice__title">{{ practice.title }}</h3>
+          <p class="practice__detail">{{ practice.detail }}</p>
+          <p class="practice__tools">{{ practice.tools.join(' · ') }}</p>
+        </li>
+      }
+    </ol>
+  </div>
+</section>

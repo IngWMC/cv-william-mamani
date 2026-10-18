@@ -1,0 +1,85 @@
+@use '../../../styles/mixins' as *;
+
+.java {
+  overflow: clip;
+
+  &__glyph {
+    position: absolute;
+    top: 2rem;
+    right: -2rem;
+    color: rgba(245, 160, 74, 0.05);
+    font: 700 clamp(12rem, 8rem + 18vw, 26rem) / 1 var(--font-mono);
+    letter-spacing: -0.1em;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &__grid {
+    position: relative;
+    display: grid;
+    gap: var(--space-5);
+
+    @include up(md) {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      align-items: start;
+    }
+  }
+}
+
+.core {
+  @include surface(2);
+  position: relative;
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  border-color: rgba(245, 160, 74, 0.3);
+  background:
+    radial-gradient(120% 80% at 0% 0%, rgba(245, 160, 74, 0.16), transparent 60%),
+    var(--color-surface);
+
+  @include up(md) {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+
+  &__mark {
+    color: var(--color-text);
+    font: 700 clamp(2.6rem, 2rem + 2.4vw, 3.8rem) / 1 var(--font-mono);
+    letter-spacing: -0.04em;
+  }
+
+  &__brace {
+    color: var(--color-accent);
+  }
+
+  &__title {
+    margin-top: var(--space-6);
+    font-size: var(--fs-h3);
+  }
+
+  &__meta {
+    margin-top: var(--space-1);
+    color: var(--color-text-subtle);
+    font: 500 var(--fs-small) / 1.5 var(--font-mono);
+  }
+
+  &__facts {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+
+    li {
+      position: relative;
+      padding-left: 1.5rem;
+      color: var(--color-text-muted);
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.62em;
+        width: 10px;
+        height: 2px;
+        background: var(--color-accent);
+      }
+    }
+  }
+}

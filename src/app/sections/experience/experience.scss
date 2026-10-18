@@ -1,0 +1,202 @@
+@use '../../../styles/mixins' as *;
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: var(--space-5);
+  padding-left: 28px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 6px;
+    width: 1px;
+    background: linear-gradient(var(--color-accent), var(--color-border-strong) 25%, var(--color-border));
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__marker {
+    position: absolute;
+    top: 30px;
+    left: -28px;
+    width: 13px;
+    height: 13px;
+    border: 2px solid var(--color-border-strong);
+    border-radius: 50%;
+    background: var(--color-bg);
+  }
+
+  &__item--featured &__marker {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: 0 0 0 6px var(--color-accent-soft);
+  }
+}
+
+.job {
+  @include surface(1);
+  padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  transition:
+    border-color var(--dur-medium) var(--ease-standard),
+    transform var(--dur-medium) var(--ease-standard),
+    box-shadow var(--dur-medium) var(--ease-standard);
+
+  &:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--elevation-2);
+    transform: translateY(-2px);
+  }
+
+  .timeline__item--featured & {
+    border-color: rgba(245, 160, 74, 0.32);
+    background:
+      radial-gradient(90% 120% at 100% 0%, rgba(245, 160, 74, 0.1), transparent 55%),
+      var(--color-surface);
+  }
+
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-5);
+  }
+
+  &__company {
+    font-size: var(--fs-h3);
+  }
+
+  &__role {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+    font-weight: 600;
+  }
+
+  &__focus {
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--color-text-muted);
+    font: 500 0.72rem/1.4 var(--font-mono);
+
+    &[data-focus='java'] {
+      background: var(--color-accent-soft);
+      color: var(--color-accent-strong);
+    }
+
+    &[data-focus='node'] {
+      background: var(--color-cool-soft);
+      color: var(--color-cool);
+    }
+  }
+
+  &__period {
+    color: var(--color-text-subtle);
+    font: 500 var(--fs-small) / 1.6 var(--font-mono);
+    white-space: nowrap;
+  }
+
+  &__clients {
+    margin-top: var(--space-4);
+    color: var(--color-text);
+    font-weight: 600;
+
+    span {
+      @include mono-label;
+      margin-right: var(--space-3);
+      color: var(--color-text-subtle);
+    }
+  }
+
+  &__highlights {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    max-width: 78ch;
+
+    li {
+      position: relative;
+      padding-left: 1.25rem;
+      color: var(--color-text-muted);
+
+      &::before {
+        content: '›';
+        position: absolute;
+        left: 0;
+        color: var(--color-accent);
+        font-family: var(--font-mono);
+      }
+    }
+  }
+
+  &__stack {
+    margin-top: var(--space-5);
+  }
+}
+
+.earlier {
+  margin-top: var(--space-8);
+
+  &__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2) var(--space-4);
+    font-size: var(--fs-h3);
+  }
+
+  &__range {
+    color: var(--color-text-subtle);
+    font: 500 var(--fs-small) / 1 var(--font-mono);
+  }
+
+  &__list {
+    margin-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  &__item {
+    display: grid;
+    gap: var(--space-1) var(--space-5);
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color var(--dur-short) linear;
+
+    @include up(md) {
+      grid-template-columns: 170px minmax(0, 0.9fr) minmax(0, 1.4fr);
+      align-items: baseline;
+      padding-inline: var(--space-3);
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+  }
+
+  &__period {
+    color: var(--color-text-subtle);
+    font: 500 var(--fs-small) / 1.6 var(--font-mono);
+  }
+
+  &__company {
+    font-weight: 700;
+  }
+
+  &__role {
+    color: var(--color-text-subtle);
+    font-size: var(--fs-small);
+  }
+
+  &__detail {
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+  }
+}

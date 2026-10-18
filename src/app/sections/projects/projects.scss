@@ -1,0 +1,167 @@
+@use '../../../styles/mixins' as *;
+
+.projects__grid {
+  display: grid;
+  gap: var(--space-5);
+
+  @include up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.project {
+  @include surface(1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.4rem, 1rem + 1.6vw, 2.25rem);
+  overflow: hidden;
+  transition:
+    transform var(--dur-medium) var(--ease-standard),
+    box-shadow var(--dur-medium) var(--ease-standard),
+    border-color var(--dur-medium) var(--ease-standard);
+
+  // Accent rule that draws in on hover.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-cool));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-long) var(--ease-decelerate);
+  }
+
+  @include fine-pointer {
+    &:hover {
+      transform: perspective(900px) rotateX(1.5deg) translateY(-4px);
+      border-color: var(--color-border-strong);
+      box-shadow: var(--elevation-3);
+
+      &::before {
+        transform: scaleX(1);
+      }
+    }
+  }
+
+  &--lead {
+    border-color: rgba(245, 160, 74, 0.3);
+    background:
+      radial-gradient(80% 100% at 100% 0%, rgba(245, 160, 74, 0.12), transparent 60%),
+      var(--color-surface);
+
+    @include up(md) {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      column-gap: var(--space-7);
+
+      > :not(.project__points) {
+        grid-column: 1;
+      }
+
+      .project__points {
+        grid-column: 2;
+        grid-row: 1 / span 4;
+        align-self: center;
+        margin-top: 0;
+      }
+    }
+  }
+
+  &__meta {
+    color: var(--color-accent);
+    font: 500 var(--fs-micro) / 1.5 var(--font-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin-top: var(--space-3);
+    font-size: clamp(1.35rem, 1.15rem + 0.9vw, 1.9rem);
+  }
+
+  &__summary {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+  }
+
+  &__points {
+    display: grid;
+    gap: var(--space-2);
+    margin-top: var(--space-5);
+    counter-reset: point;
+
+    li {
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      background: rgba(255, 255, 255, 0.02);
+      font-size: var(--fs-small);
+      counter-increment: point;
+
+      &::before {
+        content: counter(point, decimal-leading-zero);
+        color: var(--color-text-subtle);
+        font-family: var(--font-mono);
+      }
+    }
+  }
+
+  &__stack {
+    margin-top: auto;
+    padding-top: var(--space-5);
+  }
+}
+
+.legacy {
+  margin-top: var(--space-8);
+
+  &__title {
+    font-size: var(--fs-h3);
+  }
+
+  &__list {
+    margin-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  &__item {
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--color-border);
+
+    @include up(md) {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr) minmax(0, 0.8fr);
+      align-items: baseline;
+    }
+  }
+
+  &__name {
+    font-size: 1.05rem;
+  }
+
+  &__meta {
+    margin-top: var(--space-1);
+    color: var(--color-text-subtle);
+    font-size: var(--fs-small);
+  }
+
+  &__summary {
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+  }
+
+  &__stack {
+    color: var(--color-cool);
+    font: 500 0.78rem/1.6 var(--font-mono);
+
+    @include up(md) {
+      text-align: right;
+    }
+  }
+}

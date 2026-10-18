@@ -1,0 +1,45 @@
+<div class="eco">
+  <div class="eco__tabs" role="tablist" [attr.aria-label]="t().ui.java.tablistLabel">
+    @for (group of groups(); track group.id; let i = $index) {
+      <button
+        #tab
+        type="button"
+        role="tab"
+        class="eco__tab"
+        [id]="'tab-' + group.id"
+        [attr.aria-selected]="group.id === activeId()"
+        [attr.aria-controls]="group.id === activeId() ? 'panel-' + group.id : null"
+        [tabIndex]="group.id === activeId() ? 0 : -1"
+        (click)="activeId.set(group.id)"
+        (keydown)="onTabKeydown($event, i)"
+      >
+        <span class="eco__node" aria-hidden="true"></span>
+        <span class="eco__tab-label">{{ group.label }}</span>
+        <span class="eco__count" aria-hidden="true">{{ group.items.length }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Keyed on the group so the panel re-enters (and re-animates) on every change. -->
+  @for (group of [active()]; track group.id) {
+    <div
+      class="eco__panel"
+      role="tabpanel"
+      tabindex="0"
+      [id]="'panel-' + group.id"
+      [attr.aria-labelledby]="'tab-' + group.id"
+    >
+      <h3 class="eco__title">{{ group.label }}</h3>
+      <p class="eco__caption">{{ group.caption }}</p>
+      <ul class="chip-list eco__items">
+        @for (item of group.items; track item; let i = $index) {
+          <li class="chip chip--lg" [style.--i]="i">{{ item }}</li>
+        }
+      </ul>
+      <p class="eco__evidence">
+        <span class="eco__evidence-label">{{ t().ui.java.evidenceLabel }}</span>
+        {{ group.evidence }}
+      </p>
+    </div>
+  }
+</div>

@@ -1,0 +1,29 @@
+@let ui = t().ui.java;
+<section id="java" class="section java" aria-labelledby="java-title">
+  <div class="java__glyph" aria-hidden="true">&#123;&#125;</div>
+
+  <div class="container">
+    <header class="section-head" appReveal>
+      <p class="eyebrow"><span class="eyebrow__index">01</span>{{ ui.eyebrow }}</p>
+      <h2 id="java-title" class="section-title">{{ ui.title }}</h2>
+      <p class="section-lead">{{ ui.lead }}</p>
+    </header>
+
+    <div class="java__grid">
+      <article class="core" appReveal>
+        <div class="core__mark" aria-hidden="true">
+          <span class="core__brace">&#123;</span>java<span class="core__brace">&#125;</span>
+        </div>
+        <h3 class="core__title">Technical Lead · Java</h3>
+        <p class="core__meta">{{ ui.coreMeta }}</p>
+        <ul class="core__facts">
+          @for (fact of t().javaFacts; track fact) {
+            <li>{{ fact }}</li>
+          }
+        </ul>
+      </article>
+
+      <app-tech-explorer appReveal [appRevealDelay]="120" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,308 @@
+// Shared, page-wide building blocks: layout, section headings, buttons (Material-style states
+// plus ripple), chips, scroll reveal and accessibility helpers.
+@use 'mixins' as *;
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.section {
+  position: relative;
+  padding-block: var(--section-space);
+  // Anchor jumps land with the section heading 2rem below the fixed header; the large top
+  // padding (spacing between sections while scrolling) is tucked under the header instead.
+  scroll-margin-top: calc(var(--header-h) + 2rem - var(--section-space));
+}
+
+.section-head {
+  max-width: 780px;
+  margin-bottom: clamp(2rem, 1.5rem + 2.5vw, 3.5rem);
+}
+
+.eyebrow {
+  @include mono-label;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-accent);
+
+  &__index {
+    color: var(--color-text-subtle);
+
+    &::after {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      margin-left: var(--space-3);
+      vertical-align: middle;
+      background: currentColor;
+    }
+  }
+}
+
+.section-title {
+  margin-top: var(--space-4);
+  font-size: var(--fs-h2);
+}
+
+.section-lead {
+  margin-top: var(--space-4);
+  max-width: 62ch;
+  color: var(--color-text-muted);
+  font-size: var(--fs-lead);
+}
+
+// ---------------------------------------------------------------------------
+// Buttons: filled / tonal / outlined / text / icon, with a Material state layer.
+// ---------------------------------------------------------------------------
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-text);
+  --btn-border: transparent;
+  --btn-state: currentColor;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 1.375rem;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-full);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font: 600 0.9375rem/1 var(--font-body);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    box-shadow var(--dur-medium) var(--ease-standard),
+    border-color var(--dur-medium) var(--ease-standard),
+    background-color var(--dur-medium) var(--ease-standard),
+    transform var(--dur-short) var(--ease-standard);
+
+  // State layer
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-state);
+    opacity: 0;
+    transition: opacity var(--dur-short) linear;
+  }
+
+  &:hover::before {
+    opacity: 0.08;
+  }
+
+  &:focus-visible::before,
+  &:active::before {
+    opacity: 0.12;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  .icon {
+    transition: transform var(--dur-medium) var(--ease-standard);
+  }
+
+  &:hover .icon--nudge {
+    transform: translateX(3px);
+  }
+
+  &:hover .icon--drop {
+    transform: translateY(2px);
+  }
+
+  &--filled {
+    --btn-bg: var(--color-accent);
+    --btn-fg: var(--color-on-accent);
+    box-shadow: var(--elevation-1);
+
+    &:hover {
+      box-shadow: var(--elevation-2), 0 0 0 4px var(--color-accent-soft);
+    }
+  }
+
+  &--tonal {
+    --btn-bg: var(--color-surface-high);
+    --btn-border: var(--color-border);
+  }
+
+  &--outlined {
+    --btn-border: var(--color-border-strong);
+
+    &:hover {
+      --btn-border: var(--color-accent);
+    }
+  }
+
+  &--text {
+    padding-inline: var(--space-3);
+  }
+
+  &--icon {
+    width: 44px;
+    padding: 0;
+  }
+
+  &--sm {
+    min-height: 38px;
+    padding-inline: var(--space-4);
+    font-size: var(--fs-small);
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    --btn-bg: rgba(232, 236, 244, 0.12);
+    --btn-fg: rgba(232, 236, 244, 0.38);
+    --btn-border: transparent;
+    box-shadow: none;
+    pointer-events: none;
+  }
+}
+
+// Ripple elements created by the appRipple directive.
+.ripple {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.18;
+  pointer-events: none;
+  transform: scale(0);
+  transition-property: transform, opacity;
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1), linear;
+
+  &--enter {
+    transform: scale(1);
+  }
+
+  &--exit {
+    opacity: 0;
+  }
+
+  @include reduced-motion {
+    transform: scale(1);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Chips
+// ---------------------------------------------------------------------------
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 30px;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  transition:
+    border-color var(--dur-medium) var(--ease-standard),
+    color var(--dur-medium) var(--ease-standard),
+    background-color var(--dur-medium) var(--ease-standard);
+
+  &--accent {
+    border-color: rgba(245, 160, 74, 0.45);
+    background: var(--color-accent-soft);
+    color: var(--color-accent-strong);
+  }
+
+  &--cool {
+    border-color: rgba(103, 199, 245, 0.35);
+    background: var(--color-cool-soft);
+    color: var(--color-cool);
+  }
+
+  &--lg {
+    min-height: 38px;
+    padding-inline: 0.9rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+  }
+}
+
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+// ---------------------------------------------------------------------------
+// Scroll reveal (appReveal directive toggles .is-visible)
+// ---------------------------------------------------------------------------
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 700ms var(--ease-decelerate),
+    transform 900ms var(--ease-decelerate);
+  transition-delay: var(--reveal-delay, 0ms);
+
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @include reduced-motion {
+    transform: none;
+    transition: opacity 300ms linear;
+  }
+
+  @media print {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Accessibility helpers
+// ---------------------------------------------------------------------------
+.visually-hidden {
+  @include visually-hidden;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 100;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-160%);
+  transition: transform var(--dur-medium) var(--ease-standard);
+
+  &:focus-visible {
+    transform: none;
+  }
+}
+
+.top-sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 12px;
+  pointer-events: none;
+}

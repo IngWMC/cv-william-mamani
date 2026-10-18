@@ -1,0 +1,94 @@
+@let ui = t().ui.header;
+<header class="header" [class.header--raised]="scrolled() || menuOpen()">
+  <div class="container header__bar">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true">{{ t().profile.initials }}</span>
+      <span class="brand__text">
+        <span class="brand__name">William Mamani</span>
+        <span class="brand__role">Technical Lead · Java</span>
+      </span>
+      <span class="visually-hidden">{{ ui.home }}</span>
+    </a>
+
+    <nav class="nav" [attr.aria-label]="ui.sectionsLabel">
+      <ul class="nav__list">
+        @for (link of t().nav; track link.id) {
+          <li>
+            <a
+              class="nav__link"
+              [href]="'#' + link.id"
+              [class.is-active]="activeId() === link.id"
+              [attr.aria-current]="activeId() === link.id ? 'location' : null"
+              >{{ link.label }}</a
+            >
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="header__actions">
+      <button
+        type="button"
+        class="btn btn--text btn--sm header__lang"
+        appRipple
+        [attr.lang]="ui.switchTo.lang"
+        [attr.aria-label]="ui.switchTo.label"
+        [attr.title]="ui.switchTo.label"
+        (click)="language.set(ui.switchTo.lang)"
+      >
+        {{ ui.switchTo.code }}
+      </button>
+      <a
+        class="btn btn--tonal btn--sm header__cv"
+        appRipple
+        [href]="t().profile.cv.href"
+        [attr.download]="t().profile.cv.fileName"
+      >
+        <app-icon name="download" [size]="18" class="icon--drop" />
+        <span>{{ ui.cv }}<span class="header__cv-suffix">{{ ui.cvSuffix }}</span></span>
+      </a>
+      <button
+        #toggle
+        type="button"
+        class="btn btn--icon btn--text header__toggle"
+        appRipple
+        aria-controls="mobile-menu"
+        [attr.aria-expanded]="menuOpen()"
+        (click)="toggleMenu()"
+      >
+        <span class="visually-hidden">{{ menuOpen() ? ui.closeMenu : ui.openMenu }}</span>
+        <app-icon [name]="menuOpen() ? 'close' : 'menu'" [size]="22" />
+      </button>
+    </div>
+  </div>
+
+  <div #panel id="mobile-menu" class="mobile-menu" [class.is-open]="menuOpen()">
+    <nav class="container" [attr.aria-label]="ui.mobileSectionsLabel">
+      <ul class="mobile-menu__list">
+        @for (link of t().nav; track link.id; let i = $index) {
+          <li [style.--i]="i">
+            <a
+              class="mobile-menu__link"
+              [href]="'#' + link.id"
+              [attr.aria-current]="activeId() === link.id ? 'location' : null"
+              (click)="closeMenu()"
+            >
+              <span class="mobile-menu__index" aria-hidden="true">0{{ i + 1 }}</span>
+              {{ link.label }}
+            </a>
+          </li>
+        }
+      </ul>
+      <a
+        class="btn btn--filled mobile-menu__cv"
+        appRipple
+        [href]="t().profile.cv.href"
+        [attr.download]="t().profile.cv.fileName"
+        [style.--i]="t().nav.length"
+      >
+        <app-icon name="download" [size]="18" class="icon--drop" />
+        {{ t().ui.hero.downloadCv }}
+      </a>
+    </nav>
+  </div>
+</header>
