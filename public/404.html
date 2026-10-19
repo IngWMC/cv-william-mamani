@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>404 · William Mamani Cutipa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a0d14">
+  <meta name="color-scheme" content="dark">
+  <!--
+    Served by GitHub Pages (and most static hosts) at the URL that was requested, so it may sit at
+    any depth. Nothing here is loaded by relative URL: styles and icon are inline, system fonts.
+  -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a0d14'/%3E%3Crect x='3' y='3' width='58' height='58' rx='13' fill='none' stroke='%23f5a04a' stroke-opacity='.6' stroke-width='2'/%3E%3Ctext x='32' y='41' font-family='monospace' font-size='24' font-weight='700' fill='%23ffbd73' text-anchor='middle'%3EWM%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #0a0d14;
+      --text: #e8ecf4;
+      --muted: #a0aabb;
+      --subtle: #7c879b;
+      --accent: #f5a04a;
+      --accent-strong: #ffbd73;
+      --border: rgba(148, 163, 184, 0.28);
+      --focus: #ffd08f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(900px 500px at 80% -10%, rgba(103, 199, 245, 0.08), transparent 60%),
+        radial-gradient(800px 500px at -10% 100%, rgba(245, 160, 74, 0.09), transparent 60%),
+        var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    main { width: min(100%, 560px); }
+    .code {
+      margin: 0;
+      font: 700 clamp(5rem, 28vw, 9rem) / 1 ui-monospace, 'SFMono-Regular', Menlo, monospace;
+      letter-spacing: -0.06em;
+      background: linear-gradient(100deg, var(--text) 10%, var(--accent-strong) 60%, var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .label {
+      margin: 8px 0 0;
+      color: var(--accent);
+      font: 500 0.75rem / 1.5 ui-monospace, 'SFMono-Regular', Menlo, monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 12px 0 0;
+      font-size: clamp(1.5rem, 1.1rem + 2vw, 2.1rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    p { margin: 12px 0 0; color: var(--muted); }
+    .en { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--subtle); }
+    .en strong { color: var(--muted); font-weight: 600; }
+    a.home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      margin-top: 28px;
+      padding: 0 22px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #1b1207;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      transition: box-shadow 0.28s cubic-bezier(0.2, 0, 0, 1), transform 0.15s;
+    }
+    a.home:hover { box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6), 0 0 0 4px rgba(245, 160, 74, 0.12); }
+    a.home:active { transform: scale(0.98); }
+    a.home:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { a.home { transition: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="code" aria-hidden="true">404</p>
+    <p class="label">William Mamani Cutipa</p>
+    <h1>Esta página no existe</h1>
+    <p>La dirección que buscas no está en este sitio. Puede que el enlace esté mal escrito o que ya no exista.</p>
+    <p class="en" lang="en"><strong>Page not found.</strong> The address you are looking for is not on this site.</p>
+    <!-- "./" is right one level deep; the script below fixes the target for deeper paths. -->
+    <a class="home" id="home" href="./">Volver al inicio · Back to home &rarr;</a>
+  </main>
+
+  <script>
+    // The site root is the shortest path prefix that serves favicon.svg (a file every build ships).
+    // Works at a domain root and under a sub-path such as /repo/, without hard-coding either.
+    (function () {
+      var home = document.getElementById('home');
+      var parts = location.pathname.split('/').filter(Boolean);
+      var candidates = ['/'];
+      for (var i = 1; i < parts.length; i++) candidates.push('/' + parts.slice(0, i).join('/') + '/');
+      (function next(i) {
+        if (i >= candidates.length) return;
+        fetch(candidates[i] + 'favicon.svg', { method: 'HEAD' })
+          .then(function (r) { if (r.ok) home.href = candidates[i]; else next(i + 1); })
+          .catch(function () { next(i + 1); });
+      })(0);
+    })();
+  </script>
+</body>
+</html>
